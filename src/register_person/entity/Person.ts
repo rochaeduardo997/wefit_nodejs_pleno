@@ -1,4 +1,5 @@
 import Contact from '../value-object/Contact';
+import Address from '../value-object/Address';
 
 type TInput = {
   id: string;
@@ -8,6 +9,7 @@ type TInput = {
   cnpj?: number;
   hasAcceptedTerms: boolean;
   contact: Contact;
+  address: Address;
 };
 
 class Person {
@@ -22,6 +24,7 @@ class Person {
   get cnpj() { return this.input.cnpj; }
   get hasAcceptedTerms() { return this.input.hasAcceptedTerms; }
   get contact() { return this.input.contact; }
+  get address() { return this.input.address; }
 
   private isValid(){
     const fullNameLengthLessThan5 = this.input.fullName.length < 5;

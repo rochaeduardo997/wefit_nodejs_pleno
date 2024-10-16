@@ -1,9 +1,19 @@
 import Person from "./Person";
 import Contact from "../value-object/Contact";
+import Address from "../value-object/Address";
 
 let person: Person;
 
 const contact = new Contact({ cellphone: 11111111111, telephony: 11111111111, email: 'email@email.com' });
+const address = new Address({
+  zipcode: 11111111,
+  street: 'street',
+  streetNumber: 123,
+  complement: '',
+  city: 'city',
+  neighborhood: 'neighborhood',
+  state: 'state'
+});
 const input = {
   id: 'id',
   fullName: 'fullName',
@@ -11,7 +21,7 @@ const input = {
   hasCNPJ: true,
   cnpj: 12312312312300,
   hasAcceptedTerms: true,
-  contact
+  contact, address
 };
 
 beforeEach(() => person = new Person(input));
@@ -26,6 +36,7 @@ describe('success', () => {
     expect(person.cnpj).toEqual(input.cnpj);
     expect(person.hasAcceptedTerms).toEqual(input.hasAcceptedTerms);
     expect(person.contact).toEqual(input.contact);
+    expect(person.address).toEqual(input.address);
   });
 
   test('create person without cnpj', () => {
