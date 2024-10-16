@@ -4,9 +4,9 @@ import Address from '../value-object/Address';
 type TInput = {
   id: string;
   fullName: string;
-  cpf: number;
+  responsibleCPF: number;
   hasCNPJ: boolean;
-  cnpj?: number;
+  cpfcnpj: number;
   hasAcceptedTerms: boolean;
   contact: Contact;
   address: Address;
@@ -19,26 +19,37 @@ class Person {
 
   get id() { return this.input.id; }
   get fullName() { return this.input.fullName; }
-  get cpf() { return this.input.cpf; }
+  get responsibleCPF() { return this.input.responsibleCPF; }
   get hasCNPJ() { return this.input.hasCNPJ; }
-  get cnpj() { return this.input.cnpj; }
+  get cpfcnpj() { return this.input.cpfcnpj; }
   get hasAcceptedTerms() { return this.input.hasAcceptedTerms; }
   get contact() { return this.input.contact; }
   get address() { return this.input.address; }
 
   private isValid(){
     const fullNameLengthLessThan5 = this.input.fullName.length < 5;
-    const invalidCPFLength =
-      (this.input.cpf + '').length < 11 ||
-      (this.input.cpf + '').length > 11;
-    const invalidCNPJLength =
-      (this.input.cnpj + '').length < 14 ||
-      (this.input.cnpj + '').length > 14;
+    const invalidResponsibleCPFLength =
+      (this.input.responsibleCPF + '').length < 11 ||
+      (this.input.responsibleCPF + '').length > 11;
 
-    if(!this.input.hasCNPJ) this.input.cnpj = undefined;
-    else if(invalidCNPJLength) throw new Error('invalid cnpj length');
+    this.validateCPFCNPJ();
+
     if(fullNameLengthLessThan5) throw new Error('full name must have 5 characters or more');
-    if(invalidCPFLength) throw new Error('invalid cpf length');
+    if(invalidResponsibleCPFLength) throw new Error('invalid responsible cpf length');
+  }
+
+  private validateCPFCNPJ(){
+    if(this.input.hasCNPJ) {
+      const invalidCNPJLength =
+        (this.input.cpfcnpj + '').length < 14 ||
+        (this.input.cpfcnpj + '').length > 14;
+      if(invalidCNPJLength) throw new Error('invalid cnpj length');
+    }else{
+      const invalidCPFLength =
+        (this.input.cpfcnpj + '').length < 11 ||
+        (this.input.cpfcnpj + '').length > 11;
+      if(invalidCPFLength) throw new Error('invalid cpf length');
+    }
   }
 }
 
