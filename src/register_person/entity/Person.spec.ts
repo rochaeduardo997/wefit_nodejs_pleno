@@ -1,14 +1,17 @@
 import Person from "./Person";
+import Contact from "../value-object/Contact";
 
 let person: Person;
 
+const contact = new Contact({ cellphone: 11111111111, telephony: 11111111111, email: 'email@email.com' });
 const input = {
   id: 'id',
   fullName: 'fullName',
   cpf: 12312312300,
   hasCNPJ: true,
   cnpj: 12312312312300,
-  hasAcceptedTerms: true
+  hasAcceptedTerms: true,
+  contact
 };
 
 beforeEach(() => person = new Person(input));
@@ -22,6 +25,7 @@ describe('success', () => {
     expect(person.hasCNPJ).toEqual(input.hasCNPJ);
     expect(person.cnpj).toEqual(input.cnpj);
     expect(person.hasAcceptedTerms).toEqual(input.hasAcceptedTerms);
+    expect(person.contact).toEqual(input.contact);
   });
 
   test('create person without cnpj', () => {
@@ -57,4 +61,3 @@ describe('fail', () => {
       .toThrow('invalid cnpj length');
   });
 });
-
