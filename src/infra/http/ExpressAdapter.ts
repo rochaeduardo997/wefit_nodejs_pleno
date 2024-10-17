@@ -4,6 +4,8 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import IJWT from "../jwt/jwt.interface";
+import swaggerUI from 'swagger-ui-express';
+import swaggerSpec from '../../swagger';
 
 class ExpressAdapter implements IHttp {
   public app;
@@ -17,11 +19,13 @@ class ExpressAdapter implements IHttp {
       .use(express.urlencoded({ extended: true }))
       .use(this.middleware.bind(this));
 
+    this.app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+
     this.route = express.Router();
   }
 
   private async middleware(req: Request, res: Response, next: NextFunction){
-    if(/login/i.test(req.url)) return next();
+    if(/login|api-docs/i.test(req.url)) return next();
     try{
       const token = req.headers.authorization?.split(' ') || [];
       if(!token?.[1]) throw new Error();

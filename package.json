@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --files -r tsconfig-paths/register --inspect --ignore-watch node_modules src/index.ts"
+    "start": "yarn ts-node src/index.ts",
+    "test": "jest ./.. --coverage --verbose --silent"
   },
   "dependencies": {
     "cors": "^2.8.5",
