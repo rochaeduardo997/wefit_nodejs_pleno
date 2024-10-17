@@ -1,4 +1,4 @@
-import { Table, Model, PrimaryKey, Column, Unique, HasOne } from 'sequelize-typescript';
+import { DataType, Table, Model, PrimaryKey, Column, Unique, HasOne } from 'sequelize-typescript';
 import ContactModel from './ContactModel.model';
 import AddressModel from './AddressModel.model';
 
@@ -11,14 +11,14 @@ class PersonModel extends Model {
   @Column({ allowNull: false })
   declare full_name: string;
 
-  @Column
+  @Column({ allowNull: false, type: DataType.BIGINT })
   declare responsible_cpf: string;
 
   @Column({ allowNull: false })
   declare has_cnpj: boolean;
 
   @Unique
-  @Column
+  @Column({ allowNull: false, type: DataType.BIGINT })
   declare cpfcnpj: string;
 
   @Column({ allowNull: false })

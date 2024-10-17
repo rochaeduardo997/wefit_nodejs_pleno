@@ -3,16 +3,14 @@ import PersonModel from './PersonModel.model';
 
 @Table({ tableName: 'person_addresses', timestamps: false })
 class AddressModel extends Model {
-  @PrimaryKey
-  @Column
-  declare id: string;
-
   @Column({ allowNull: false })
   declare zipcode: number;
 
+  @PrimaryKey
   @Column({ allowNull: false })
   declare street: string;
 
+  @PrimaryKey
   @Column({ allowNull: false })
   declare street_number: number;
 
@@ -28,6 +26,7 @@ class AddressModel extends Model {
   @Column({ allowNull: false })
   declare state: string;
 
+  @PrimaryKey
   @ForeignKey(() => PersonModel)
   @Column({ allowNull: false })
   declare fk_person_id: string;
