@@ -34,6 +34,7 @@ class RedisAdapter implements ICache {
       await this.client.set(key, value, { EX: expiresIn });
       return true;
     }catch(err: any){
+      console.log(err);
       throw new Error(`failed on redis set by key ${key}`);
     }
   }
