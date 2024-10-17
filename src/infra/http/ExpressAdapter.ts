@@ -21,6 +21,7 @@ class ExpressAdapter implements IHttp {
   }
 
   private async middleware(req: Request, res: Response, next: NextFunction){
+    if(/login/i.test(req.url)) return next();
     try{
       const token = req.headers.authorization?.split(' ') || [];
       if(!token?.[1]) throw new Error();
