@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize-typescript";
+import { Sequelize } from 'sequelize-typescript';
 import PersonModel from '../../register_person/repository/PersonModel.model';
 import ContactModel from '../../register_person/repository/ContactModel.model';
 import AddressModel from '../../register_person/repository/AddressModel.model';

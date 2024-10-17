@@ -1,5 +1,5 @@
-import { Sequelize } from "sequelize-typescript";
-import { instanceSequelizeSQLite3 } from "../../db/sequelize/instance";
+import { Sequelize } from 'sequelize-typescript';
+import { instanceSequelizeSQLite3 } from '../../db/sequelize/instance';
 import IRegisterPersonRepository from '../../../register_person/repository/RegisterPersonRepository.interface';
 import RegisterPersonRepository from './RegisterPerson.repository';
 import Person from '../../../register_person/entity/Person';

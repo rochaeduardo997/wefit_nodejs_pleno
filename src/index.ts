@@ -1,13 +1,20 @@
-import express from "express";
+import { instanceSequelizeMySQL } from './infra/db/sequelize/instance';
+import RegisterPersonRepository from './infra/register_person/repository/RegisterPerson.repository';
+import RegisterPersonController from './infra/controller/register_person/RegisterPerson.controller';
+import ExpressAdapter from './infra/http/ExpressAdapter';
+import * as dotenv from 'dotenv';
+dotenv.config({ path: __dirname + '/./../.env' });
 
-const app = express();
+(async () => {
+  const sequelize = await instanceSequelizeMySQL();
 
-const port = process.env.PORT || 4568;
+  const rpRepository = new RegisterPersonRepository(sequelize);
 
-app.get("/ping", (req, res) => {
-  return res.send("pong");
-});
+  const httpAdapter = new ExpressAdapter();
 
-app.listen(port, () => {
-  console.log(`Escutando na porta ${port}`);
-});
+  new RegisterPersonController(httpAdapter, rpRepository);
+
+  httpAdapter.init();
+  httpAdapter.listen();
+})();
+

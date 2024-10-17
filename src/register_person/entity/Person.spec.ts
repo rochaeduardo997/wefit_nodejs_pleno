@@ -1,6 +1,6 @@
-import Person from "./Person";
-import Contact from "../value-object/Contact";
-import Address from "../value-object/Address";
+import Person from './Person';
+import Contact from '../value-object/Contact';
+import Address from '../value-object/Address';
 
 let person: Person;
 
