@@ -2,6 +2,7 @@ import { Sequelize } from 'sequelize-typescript';
 import PersonModel from '../../register_person/repository/PersonModel.model';
 import ContactModel from '../../register_person/repository/ContactModel.model';
 import AddressModel from '../../register_person/repository/AddressModel.model';
+import UserModel from '../../user/repository/User.model';
 
 const instanceSequelizeSQLite3 = async () => {
   const database = process.env.MYSQLDB_DATABASE!;
@@ -39,9 +40,8 @@ const instanceSequelizeMySQL = async () => {
 
 const syncModels = async (sequelize: Sequelize): Promise<void> => {
   sequelize.addModels([
-    PersonModel,
-    ContactModel,
-    AddressModel
+    PersonModel, ContactModel, AddressModel,
+    UserModel
   ]);
 
   await sequelize.sync();
