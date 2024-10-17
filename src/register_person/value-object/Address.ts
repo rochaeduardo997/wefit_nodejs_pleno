@@ -2,7 +2,7 @@ type TInput = {
   zipcode: number;
   street: string;
   streetNumber: number;
-  complement: string;
+  complement?: string;
   city: string;
   neighborhood: string;
   state: string;
