@@ -24,7 +24,7 @@ class UserController {
 
     /**
      * @swagger
-     * /login:
+     * /api/v1/login:
      *   post:
      *     summary: Generate an authorization token(JWT)
      *     tags: [Users]

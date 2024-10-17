@@ -1,6 +1,22 @@
 import swaggerJsDoc from 'swagger-jsdoc';
 const swaggerSpecs = swaggerJsDoc({
   definition: {
+    components:{
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          in: 'header',
+          name: 'Authorization',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+    },
     openapi: "3.0.0",
     info: {
       title: "Desenvolvedor(a) Node.js Pleno - WeFit",
