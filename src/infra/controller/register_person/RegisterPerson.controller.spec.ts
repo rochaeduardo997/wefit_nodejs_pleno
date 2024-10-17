@@ -6,6 +6,8 @@ import IRegisterPersonRepository from '../../../register_person/repository/Regis
 import RegisterPersonRepository from '../../register_person/repository/RegisterPerson.repository';
 import RegisterPersonController from './RegisterPerson.controller';
 import ExpressAdapter from '../../http/ExpressAdapter';
+import CacheFake from '../../cache/cache.fake';
+import JWTFake from '../../jwt/jwt.fake';
 import RegisterPersonHandler from '../../../register_person/application/RegisterPersonHandler';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -34,9 +36,12 @@ let rpRepository: IRegisterPersonRepository;
 let rpHandler: RegisterPersonHandler;
 
 beforeEach(async () => {
+  const cache = new CacheFake();
+  await cache.set('session:id', 'Bearer token');
+  const jwt = new JWTFake();
   sequelize = await instanceSequelizeSQLite3();
   rpRepository = new RegisterPersonRepository(sequelize);
-  const httpAdapter = new ExpressAdapter();
+  const httpAdapter = new ExpressAdapter(cache, jwt);
   new RegisterPersonController(httpAdapter, rpRepository);
   httpAdapter.init();
   request = supertest(httpAdapter.app);
@@ -48,6 +53,7 @@ describe('success', () => {
   test('create person', async () => {
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send(input);
     expect(body?.result?.id).toBeTruthy();
     expect(body?.result?.fullName).toEqual(input.fullName);
@@ -67,6 +73,7 @@ describe('fail', () => {
     await rpHandler.execute(input);
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send(input);
     expect(body?.msg).toEqual('cpfcnpj must be unique');
     expect(status).toEqual(400);
@@ -75,6 +82,7 @@ describe('fail', () => {
   test('create person without address zipcode', async () => {
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send({ ...input, address: { ...address, zipcode: undefined }});
     expect(body?.msg).toEqual('zipcode must be provided');
     expect(status).toEqual(400);
@@ -83,6 +91,7 @@ describe('fail', () => {
   test('create person without address street', async () => {
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send({ ...input, address: { ...address, street: undefined }});
     expect(body?.msg).toEqual('street must be provided');
     expect(status).toEqual(400);
@@ -91,6 +100,7 @@ describe('fail', () => {
   test('create person without address street number', async () => {
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send({ ...input, address: { ...address, streetNumber: undefined }});
     expect(body?.msg).toEqual('street number must be provided');
     expect(status).toEqual(400);
@@ -99,6 +109,7 @@ describe('fail', () => {
   test('create person without address city', async () => {
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send({ ...input, address: { ...address, city: undefined }});
     expect(body?.msg).toEqual('city must be provided');
     expect(status).toEqual(400);
@@ -107,6 +118,7 @@ describe('fail', () => {
   test('create person without address neighborhood', async () => {
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send({ ...input, address: { ...address, neighborhood: undefined }});
     expect(body?.msg).toEqual('neighborhood must be provided');
     expect(status).toEqual(400);
@@ -115,6 +127,7 @@ describe('fail', () => {
   test('create person without address state', async () => {
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send({ ...input, address: { ...address, state: undefined }});
     expect(body?.msg).toEqual('state must be provided');
     expect(status).toEqual(400);
@@ -123,6 +136,7 @@ describe('fail', () => {
   test('create person without contact cellphone', async () => {
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send({ ...input, contact: { ...contact, cellphone: undefined }});
     expect(body?.msg).toEqual('cellphone must be provided');
     expect(status).toEqual(400);
@@ -131,6 +145,7 @@ describe('fail', () => {
   test('create person without contact telephony', async () => {
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send({ ...input, contact: { ...contact, telephony: undefined }});
     expect(body?.msg).toEqual('telephony must be provided');
     expect(status).toEqual(400);
@@ -139,6 +154,7 @@ describe('fail', () => {
   test('create person without contact email', async () => {
     const { status, body } = await request
       .post('/api/v1/person')
+      .set('Authorization', 'Bearer token')
       .send({ ...input, contact: { ...contact, email: undefined }});
     expect(body?.msg).toEqual('email must be provided');
     expect(status).toEqual(400);
