@@ -9,7 +9,7 @@ type TInput = {
 };
 
 class Address {
-  constructor(private input: TInput){}
+  constructor(private input: TInput){ this.isValid(); }
 
   get zipcode() { return this.input.zipcode; }
   get street() { return this.input.street; }

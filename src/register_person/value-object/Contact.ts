@@ -5,7 +5,7 @@ type TInput = {
 };
 
 class Contact {
-  constructor(private input: TInput){}
+  constructor(private input: TInput){ this.isValid(); }
 
   get cellphone() { return this.input.cellphone; }
   get telephony() { return this.input.telephony; }
