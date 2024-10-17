@@ -28,15 +28,27 @@ class UserRepository implements IUserRepository {
   async create(input: User): Promise<User> {
     try{
       const result = (await this.USER_MODEL.create({
-        id:       input.id,
+        id: input.id,
         username: input.username,
         password: input.password,
-        status:   input.status
+        status: input.status
       }, { raw: true })).dataValues;
       return new User({ ...result });
     }catch(err: any){
       console.error(err);
       throw new Error(err?.errors?.[0]?.message || 'failed on create new user');
+    }
+  }
+
+  async upsertMainUser(input: User): Promise<void> {
+    try{
+      const hasUser = await this.USER_MODEL.findOne({ where: { username: "support" }});
+      if(hasUser) return;
+      await this.create(input);
+      return;
+    }catch(err: any){
+      console.error(err);
+      throw new Error(err?.errors?.[0]?.message || 'failed on upsert support user');
     }
   }
 }

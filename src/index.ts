@@ -6,6 +6,7 @@ import UserController from './infra/controller/user/User.controller';
 import ExpressAdapter from './infra/http/ExpressAdapter';
 import RedisAdapter from './infra/cache/RedisAdapter';
 import JWTAdapter from './infra/jwt/JWTAdapter';
+import UpsertMainUserHandler from './user/application/UpsertMainUserHandler';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: __dirname + '/./../.env' });
 
@@ -22,6 +23,9 @@ dotenv.config({ path: __dirname + '/./../.env' });
 
   new RegisterPersonController(httpAdapter, rpRepository);
   new UserController(httpAdapter, uRepository, cache, jwt);
+
+  const upsertHandler = new UpsertMainUserHandler(uRepository);
+  await upsertHandler.execute({ username: 'support', password: 'password' });
 
   httpAdapter.init();
   httpAdapter.listen();

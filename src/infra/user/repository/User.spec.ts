@@ -32,6 +32,10 @@ describe('success', () => {
     expect(result.username).toEqual(user.username);
     expect(result.status).toEqual(user.status);
   });
+
+  test('upsert without existing', async () => {
+    await expect(() => repository.upsertMainUser(new User(input)));
+  });
 });
 
 describe('fail', () => {
